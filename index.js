@@ -21,13 +21,6 @@ const createDraft = async () => {
       subject: "Blah blah blah",
       to: [{ name: "John Doe", email: "JohnDoe@gmail.com" }],
       body: "This is a test!",
-      attachments: [
-        {
-          filename: "crying_cat.jpeg",
-          content: await fileToBase64('./crying_cat.jpg'),
-          contentType: "image/jpeg", // Content type of the attachment
-        }
-      ]
     }
 
     const createdDraft = await nylas.drafts.create({
