@@ -19,7 +19,7 @@ const createDraft = async () => {
   try {
     const draft = {
       subject: "Blah blah blah",
-      to: [{ name: "Ruth Kingswood", email: "rKingswood54@gmail.com" }],
+      to: [{ name: "John Doe", email: "JohnDoe@gmail.com" }],
       body: "This is a test!",
       attachments: [
         {
