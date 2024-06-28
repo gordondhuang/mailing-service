@@ -18,9 +18,25 @@ let draftId;
 const createDraft = async () => {
   try {
     const draft = {
-      subject: "Blah blah blah",
-      to: [{ name: "John Doe", email: "JohnDoe@gmail.com" }],
-      body: "This is a test!",
+      subject: "",
+      to: [{ name: "John Doe", email: "johndoe@gmail.com" }],
+      body: "Hello, attached is a picture of our workplace!",
+      // cc: [
+      //   { 
+      //     name: "Jane Doe", 
+      //     email: "janedoe@gmail.com" 
+      //   }
+      // ],
+      // attachments: [{ 
+      //   filename: "deloitte.jpg", 
+      //   content: await fileToBase64('./default.jpg'), 
+      //   contentType: "image/jpeg", // Content type of the attachment  
+      // }]
+      attachments: [{ 
+        filename: "test.pdf", 
+        content: await fileToBase64('./test.pdf'), 
+        contentType: "image/jpeg", // Content type of the attachment  
+      }]
     }
 
     const createdDraft = await nylas.drafts.create({
@@ -45,7 +61,7 @@ const sendDraft = async () => {
   }
 }
 
-// file to base64
+// Function for converting file to base64
 const fileToBase64 = (filepath) => {
   return new Promise((resolve, reject) => {
     // Create a readable stream from the file
