@@ -6,7 +6,8 @@ This code will be used to send out mass emails to potential sponsors and partici
 1. Create a Nylas account on [Nylas](https://www.nylas.com/)
 2. Follow the setup guide(save your API key and use an email that you can grant access to)
 3. Install npm [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-4. Run these commands in the terminal within your project directory
+4. Install NodeJS [NodeJS](https://nodejs.org/en)
+5. Run these commands in the terminal within your project directory
 ```bash 
   npm init
 
