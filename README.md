@@ -14,10 +14,10 @@ This code will be used to send out mass emails to potential sponsors and partici
 ```
 5. Create a .env file with the following and fill in each global variable:
 
-NYLAS_CLIENT_ID=<INSERT YOUR CLIENT_ID>
-NYLAS_API_KEY=<INSERT YOUR API_KEY>
-NYLAS_API_URI=<https://api.us.nylas.com or https://api.eu.nylas.com>
-NYLAS_GRANT_ID=<INSERT YOUR GRANT_ID>
+NYLAS_CLIENT_ID=<INSERT YOUR CLIENT_ID>  
+NYLAS_API_KEY=<INSERT YOUR API_KEY>  
+NYLAS_API_URI=<https://api.us.nylas.com or https://api.eu.nylas.com>  
+NYLAS_GRANT_ID=<INSERT YOUR GRANT_ID>  
 EMAIL=<INSERT SENDER EMAIL>
 
 6. Setup a script or run this in the terminal:
