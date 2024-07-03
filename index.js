@@ -4,6 +4,8 @@ import express from 'express';
 import { create } from 'domain';
 import FileReader from 'filereader';
 import fs from 'fs';
+import path from 'path';
+import csv from 'csv-parser';
 const app = express();
 
 const NylasConfig = {
@@ -14,29 +16,24 @@ const NylasConfig = {
 const nylas = new Nylas(NylasConfig)
 const identifier = process.env.NYLAS_GRANT_ID;
 let draftId;
+let receivers = [];
+// must be named 'emails.csv'
+let emails = 'emails.csv';
 
+// Creates a draft of an email to send 
 const createDraft = async () => {
   try {
+    await csvToArray();
     const draft = {
-      subject: "",
-      to: [{ name: "John Doe", email: "johndoe@gmail.com" }],
-      body: "Hello, attached is a picture of our workplace!",
-      // cc: [
-      //   { 
-      //     name: "Jane Doe", 
-      //     email: "janedoe@gmail.com" 
-      //   }
-      // ],
+      subject: "Test", // replace with subject 
+      to: [{name: "John Doe", email: "JohnDoe@gmail.com"}], // replace with receiver
+      body: "Hello, this is a test!", // replace with your body text
+      cc: receivers
       // attachments: [{ 
-      //   filename: "deloitte.jpg", 
-      //   content: await fileToBase64('./default.jpg'), 
+      //   filename: "test.pdf", 
+      //   content: await fileToBase64('./test.pdf'), 
       //   contentType: "image/jpeg", // Content type of the attachment  
       // }]
-      attachments: [{ 
-        filename: "test.pdf", 
-        content: await fileToBase64('./test.pdf'), 
-        contentType: "image/jpeg", // Content type of the attachment  
-      }]
     }
 
     const createdDraft = await nylas.drafts.create({
@@ -52,6 +49,7 @@ const createDraft = async () => {
   }
 }
 
+// Sends a draft of an email
 const sendDraft = async () => {
   try {
     const sentMessage = await nylas.drafts.send({ identifier, draftId })
@@ -61,7 +59,7 @@ const sendDraft = async () => {
   }
 }
 
-// Function for converting file to base64
+// Converts a file(JPEG, PNG, PDF) to base64
 const fileToBase64 = (filepath) => {
   return new Promise((resolve, reject) => {
     // Create a readable stream from the file
@@ -85,6 +83,30 @@ const fileToBase64 = (filepath) => {
     });
   });
 };
+
+// List of emails to CC in a CSV file to convert to an array
+async function csvToArray() {
+  try {
+    const files = await fs.promises.readdir('./');
+
+    // Read CSV file
+    const stream = fs.createReadStream(emails)
+      .pipe(csv())
+      .on('data', (data) => receivers.push(data))
+      .on('end', () => {
+        console.log('CSV parsed successfully');
+      });
+
+    await new Promise((resolve, reject) => {
+      stream.on('end', resolve);
+      stream.on('error', reject);
+    });
+
+  } catch (error) {
+    console.error('Error reading directory or file:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
 
 const main = async () => {
   try {
