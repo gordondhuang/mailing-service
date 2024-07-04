@@ -11,11 +11,11 @@ This code will be used to send out mass emails to potential sponsors and partici
 ```bash 
    git clone https://github.com/GordonDHuang/mailing-service.git
 ```
-7. Run this command in the terminal within your project directory
+6. Run this command in the terminal within your project directory
 ```bash 
   npm install
 ```
-5. Create a .env file with the following and fill in each global variable from Nylas:
+7. Create a .env file with the following and fill in each global variable from Nylas:
 
 ```bash
 NYLAS_CLIENT_ID=\<INSERT YOUR CLIENT_ID\>  
@@ -25,7 +25,10 @@ NYLAS_GRANT_ID=\<INSERT YOUR GRANT_ID\>
 EMAIL=\<INSERT SENDER EMAIL\>
 ```
 
-6. Setup a script or run this in the terminal:
+## Usage
+Fill in all recipients, body, subject, and attachments (make sure the name and file format are correct)   
+
+Setup a script or run this in the terminal:
 
 ```bash 
   node index.js
@@ -36,3 +39,4 @@ EMAIL=\<INSERT SENDER EMAIL\>
 - [GlobalHack](https://www.instagram.com/globalhack.id/)
 - [Nylas - Setup](https://developer.nylas.com/docs/v3/quickstart/email/#get-your-application-credentials)
 - [Nylas - Nylas Developers](https://developer.nylas.com/)
+- [Email Schema](https://developer.nylas.com/docs/api/v3/ecc/#post-/v3/grants/-grant_id-/messages/send)s

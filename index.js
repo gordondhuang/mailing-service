@@ -16,7 +16,7 @@ const NylasConfig = {
 const nylas = new Nylas(NylasConfig)
 const identifier = process.env.NYLAS_GRANT_ID;
 let draftId;
-let receivers = [];
+let recipients = [];
 // must be named 'emails.csv'
 let emails = 'emails.csv';
 
@@ -26,9 +26,9 @@ const createDraft = async () => {
     await csvToArray();
     const draft = {
       subject: "Test", // replace with subject 
-      to: [{name: "John Doe", email: "JohnDoe@gmail.com"}], // replace with receiver
+      to: [{name: "John Doe", email: "JohnDoe@gmail.com"}], // replace with recipient
       body: "Hello, this is a test!", // replace with your body text
-      cc: receivers
+      cc: recipients
       // attachments: [{ 
       //   filename: "test.pdf", 
       //   content: await fileToBase64('./test.pdf'), 
@@ -92,7 +92,7 @@ async function csvToArray() {
     // Read CSV file
     const stream = fs.createReadStream(emails)
       .pipe(csv())
-      .on('data', (data) => receivers.push(data))
+      .on('data', (data) => recipients.push(data))
       .on('end', () => {
         console.log('CSV parsed successfully');
       });
