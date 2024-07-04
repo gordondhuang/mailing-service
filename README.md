@@ -9,11 +9,11 @@ This code will be used to send out mass emails to potential sponsors and partici
 4. Install NodeJS [NodeJS](https://nodejs.org/en)
 5. Create a new project in your IDE(VS Code, etc...) then run this in the terminal:
 ```bash 
-   git clone https://github.com/GordonDHuang/mailing-service.git
+git clone https://github.com/GordonDHuang/mailing-service.git
 ```
 6. Run this command in the terminal within your project directory
 ```bash 
-  npm install
+npm install
 ```
 7. Create a .env file with the following and fill in each global variable from Nylas:
 
@@ -31,7 +31,7 @@ Fill in all recipients, body, subject, and attachments (make sure the name and f
 Setup a script or run this in the terminal:
 
 ```bash 
-  node index.js
+node index.js
 ```
 
 
