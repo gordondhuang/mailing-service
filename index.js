@@ -17,22 +17,30 @@ const nylas = new Nylas(NylasConfig)
 const identifier = process.env.NYLAS_GRANT_ID;
 let draftId;
 let recipients = [];
-// must be named 'emails.csv'
-let emails = 'emails.csv';
+let emails = [];
+let variables = []; // format each variables as {strToReplace: <replace this>, str: <replace this>}
+let bodyContent;
+let recipientEmail; // email of recipient
+let recipientName; // name of recipient
+let emailsToCC = 'cc_emails.csv';
+let emailList = 'email_list.csv';
+let fileAttachment;
 
 // Creates a draft of an email to send 
-const createDraft = async () => {
+const createDraft = async (recipient, index) => {
   try {
-    await csvToArray();
+    await bodyToString();
+    await replaceAllVars(index);
     const draft = {
-      subject: "Test", // replace with subject 
-      to: [{name: "John Doe", email: "JohnDoe@gmail.com"}], // replace with recipient
-      body: "Hello, this is a test!", // replace with your body text
-      cc: recipients
+      subject: "<Insert subject>", // replace with subject 
+      to: [{ email: recipient.email, name: recipient.name }], // replace with recipient
+      body: `${bodyContent}`, // replace with your body text
+      cc: recipients,
+      // !!! Uncomment for attachments !!!
       // attachments: [{ 
-      //   filename: "test.pdf", 
-      //   content: await fileToBase64('./test.pdf'), 
-      //   contentType: "image/jpeg", // Content type of the attachment  
+      //   filename: fileAttachment, 
+      //   content: await fileToBase64(fileAttachment), 
+      //   contentType: "pdf", // Content type of the attachment  
       // }]
     }
 
@@ -84,15 +92,15 @@ const fileToBase64 = (filepath) => {
   });
 };
 
-// List of emails to CC in a CSV file to convert to an array
-async function csvToArray() {
+// List of emails in a CSV file to convert to an array
+async function csvToArray(csvName, arr) {
   try {
     const files = await fs.promises.readdir('./');
 
     // Read CSV file
-    const stream = fs.createReadStream(emails)
+    const stream = fs.createReadStream(csvName)
       .pipe(csv())
-      .on('data', (data) => recipients.push(data))
+      .on('data', (data) => arr.push(data))
       .on('end', () => {
         console.log('CSV parsed successfully');
       });
@@ -104,17 +112,48 @@ async function csvToArray() {
 
   } catch (error) {
     console.error('Error reading directory or file:', error);
-    throw error; // Propagate the error to the caller
+    throw error;
   }
 }
 
 const main = async () => {
   try {
-    const draftId = await createDraft();
-    await sendDraft(draftId);
+    await csvToArray(emailList, emails);
+    await csvToArray(emailsToCC, recipients);
+    await csvToArray(emailList, variables);
+    for (let i = 0; i < emails.length; i++) {
+      const draftId = await createDraft(emails[i], i);
+      // !!! Uncomment to send draft !!!
+      // await sendDraft(draftId);
+    }
   } catch (error) {
     console.error('Main process error:', error);
   }
 };
+
+// Reads and converts body text into a string
+async function bodyToString() {
+  try {
+    bodyContent = fs.readFileSync('./body.txt', 'utf-8');
+  } catch (error) {
+    console.error('Body to String error:', error);
+  }
+}
+
+// Replaces all variables specified above
+async function replaceAllVars(index) {
+  try {
+    // let files = await fs.promises.readdir('./');
+    // let matchingFiles = files.filter(file => file.endsWith("-proposal-globalhack.pdf"));
+    let variable = variables[index];
+    bodyContent = bodyContent.replaceAll('{companyName}', variable.companyName);
+    bodyContent = bodyContent.replaceAll('{mainService}', variable.mainService);
+    bodyContent = bodyContent.replaceAll('{industryArea}', variable.industryArea);
+    // fileAttachment = variable.companyName + ".pdf";
+    // fs.renameSync(matchingFiles[0], fileAttachment);
+  } catch (error) {
+    console.error('Error wtih replacing all variables');
+  }
+}
 
 main();

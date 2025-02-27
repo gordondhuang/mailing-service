@@ -1,6 +1,5 @@
-# GlobalHack Emailing API
-This code will be used to send out mass emails to potential sponsors and participants in GlobalHack.
-
+# Mass Emailing API
+This code will be used to send out mass emails.
 
 ## Setup
 1. Create a Nylas account on [Nylas](https://www.nylas.com/)
@@ -28,15 +27,18 @@ EMAIL=\<INSERT SENDER EMAIL\>
 ## Usage
 Fill in all recipients, body, subject, and attachments (make sure the name and file format are correct)   
 
+## Fill out the following documents:
+- emails.csv (emails to send out to)
+- cc_emails.csv (emails to cc)
+- body.txt (email body)
+
 Setup a script or run this in the terminal:
 
 ```bash 
 node index.js
 ```
 
-
 ## Documentation
-- [GlobalHack](https://www.instagram.com/globalhack.id/)
 - [Nylas - Setup](https://developer.nylas.com/docs/v3/quickstart/email/#get-your-application-credentials)
 - [Nylas - Nylas Developers](https://developer.nylas.com/)
 - [Email Schema](https://developer.nylas.com/docs/api/v3/ecc/#post-/v3/grants/-grant_id-/messages/send)s
