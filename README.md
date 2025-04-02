@@ -41,4 +41,4 @@ node index.js
 ## Documentation
 - [Nylas - Setup](https://developer.nylas.com/docs/v3/quickstart/email/#get-your-application-credentials)
 - [Nylas - Nylas Developers](https://developer.nylas.com/)
-- [Email Schema](https://developer.nylas.com/docs/api/v3/ecc/#post-/v3/grants/-grant_id-/messages/send)s
+- [Email Schema](https://developer.nylas.com/docs/api/v3/ecc/#post-/v3/grants/-grant_id-/messages/send)
